@@ -1,3 +1,24 @@
 {
-  "todos": []
+  "todos": [
+    {
+      "id": "7750",
+      "title": "صلاة الفجر",
+      "completed": true
+    },
+    {
+      "id": "d821",
+      "title": "الورد اليومى",
+      "completed": true
+    },
+    {
+      "id": "cb96",
+      "title": "Material UI",
+      "completed": false
+    },
+    {
+      "id": "16a5",
+      "title": "2 leet code problems ",
+      "completed": true
+    }
+  ]
 }
