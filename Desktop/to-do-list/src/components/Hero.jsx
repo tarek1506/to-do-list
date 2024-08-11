@@ -3,11 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faTrash,faPenToSquare,faCheck } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 
-
-
-         
-           
-        
   
 export default function Hero() {
     const [title,setTitle]=useState("")
