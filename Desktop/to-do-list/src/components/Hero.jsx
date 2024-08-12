@@ -2,6 +2,7 @@ import  { useEffect, useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faTrash,faPenToSquare,faCheck } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
+import toast, { Toaster } from 'react-hot-toast';
 
   
 export default function Hero() {
@@ -56,21 +57,48 @@ export default function Hero() {
             ) 
             
              }
-             
+
+             const notify = (txt) => toast.error(`Nothing to ${txt}`);
+
              //handle Add function
              const handleSubmit=(e)=>{
                 e.preventDefault();
-                addToDo({title,completed})
-                inputRef.current.value=""
+                if(title.match(titleExp)){
+                    addToDo({title,completed})
+                   inputRef.current.value=""
+                }else{
+                    notify('add')
+                }
+                
             }
         
              //handle Update function
              const handleUpdate=(e)=>{
                 e.preventDefault();
-                update (id,title)
-                inputRef.current.value=""
-                setIsClicked(false)
+                if(inputRef.current.value===inputRef.current.value){
+                    console.log(inputRef.current.value)
+                    if(inputRef.current.value.match(titleExp)){
+                        update (id,inputRef.current.value)
+                        inputRef.current.value=""
+                        setIsClicked(false)
+                        setTitle("")
+                    }else{
+                        notify('update')
+                    }
+                }else{
+                    if(title.match(titleExp)){
+                        update (id,title)
+                        inputRef.current.value=""
+                        setIsClicked(false)
+                        setTitle("")
+                    }else{
+                        notify('update')
+                    }
+                }
+                
+                
             }
+            const titleExp=/[^\s]/g
 
             useEffect(()=>{
                 inputRef.current.focus()
@@ -100,7 +128,12 @@ export default function Hero() {
   
             return (
         <>
+       
             <header  className=''>
+            <div><Toaster
+                position='top-center'
+            /></div>
+
                 <div  className='fixed top-1  w-[100%] z-50'>
                     <form onSubmit={isClicked?handleUpdate:handleSubmit} className=''>
                         <div  className='element-center flex justify-between gap-3'>
@@ -109,7 +142,7 @@ export default function Hero() {
                           {isClicked?
                           <>
                              <input ref={inputRef} type='text' required  placeholder='' className='pl-[20px] bg-[#292929] h-[60px] sm:w-[90%] w-[70%] element-center'  onChange={(e)=>{setTitle(e.target.value)}}/>
-                             <input type='submit' value="Update" className='w-[150px] h-[60px] bg-[#292929] cursor-pointer rounded-lg hover:bg-[#1d1d1c]'/>
+                             <input type='submit' value="Update" className='w-[150px] h-[60px] bg-[#292929]  cursor-pointer rounded-lg hover:bg-[#025e05]'/>
                           </>:
                              <>
                                   <input ref={inputRef} type='text' required placeholder='task.....' className='pl-[20px] bg-[#292929] h-[60px] sm:w-[90%] w-[70%] element-center'  onChange={(e)=>{setTitle(e.target.value)}}/>
@@ -169,10 +202,11 @@ export default function Hero() {
                                inputRef.current.focus()
                               
                                 
+                                
                             }}/>} 
                              
                            
-                            <FontAwesomeIcon icon={faTrash} className='cursor-pointer hover:hover:text-[#ebdf34] ' onClick={()=>{(deleteTodo(todo.id))}}/>
+                            <FontAwesomeIcon icon={faTrash} className='cursor-pointer hover:hover:text-[#ebdf34] ' onClick={()=>{(deleteTodo(todo.id));}}/>
                         </div>
                 </div>
                              
